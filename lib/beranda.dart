@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/login_page.dart';
+import 'package:pl1_kasir/main.dart';
 
 class Beranda extends StatefulWidget{
   const Beranda({super.key});
