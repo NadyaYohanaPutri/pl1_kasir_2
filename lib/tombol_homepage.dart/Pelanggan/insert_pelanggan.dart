@@ -10,7 +10,7 @@ class InsertPelanggan extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFF2E7D32),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           onPressed: () {
