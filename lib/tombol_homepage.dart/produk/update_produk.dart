@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pl1_kasir/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UpdatePelanggan extends StatefulWidget {
-  final int PelangganID;
+class UpdateProduk extends StatefulWidget {
+  final int ProdukID;
 
-  const UpdatePelanggan({super.key, required this.PelangganID});
+  const UpdateProduk({super.key, required this.ProdukID});
 
   @override
-  State<UpdatePelanggan> createState() => _UpdatePelangganState();
+  State<UpdateProduk> createState() => _UpdateProdukState();
 }
 
-class _UpdatePelangganState extends State<UpdatePelanggan> {
+class _UpdateProdukState extends State<UpdateProduk> {
   final _nmplg = TextEditingController();
   final _alamat = TextEditingController();
   final _notlp = TextEditingController();
@@ -20,35 +20,32 @@ class _UpdatePelangganState extends State<UpdatePelanggan> {
   @override
   void initState() {
     super.initState();
-    _loadPelangganData();
+    _loadProdukData();
   }
 
   // Fungsi untuk memuat data pelanggan berdasarkan ID
-  Future<void> _loadPelangganData() async {
+  Future<void> _loadProdukData() async {
     final data = await Supabase.instance.client
-        .from('pelanggan')
+        .from('detailproduk')
         .select()
-        .eq('PelangganID', widget.PelangganID)
+        .eq('ProdukID', widget.ProdukID)
         .single();
 
     setState(() {
-      _nmplg.text = data['NamaPelanggan'] ?? '';
+      _nmplg.text = data['NamaProduk'] ?? '';
       _alamat.text = data['Alamat'] ?? '';
       _notlp.text = data['NomorTelepon'] ?? '';
     });
   }
 
-// UpdatePelanggan.dart
-Future<void> updatePelanggan() async {
+Future<void> UpdateProduk() async {
   if (_formKey.currentState!.validate()) {
-    // Melakukan update data pelanggan ke database
-    await Supabase.instance.client.from('pelanggan').update({
-      'NamaPelanggan': _nmplg.text,
+    await Supabase.instance.client.from('detailproduk').update({
+      'NamaProduk': _nmplg.text,
       'Alamat': _alamat.text,
       'NomorTelepon': _notlp.text,
-    }).eq('PelangganID', widget.PelangganID);
+    }).eq('ProdukID', widget.ProdukID);
 
-    // Navigasi ke PelangganTab setelah update, dengan menghapus semua halaman sebelumnya dari stack
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),
@@ -63,7 +60,7 @@ Future<void> updatePelanggan() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Pelanggan'),
+        title: const Text('Edit Produk'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -75,7 +72,7 @@ Future<void> updatePelanggan() async {
               TextFormField(
                 controller: _nmplg,
                 decoration: const InputDecoration(
-                  labelText: 'Nama Pelanggan',
+                  labelText: 'Nama Produk',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -115,7 +112,7 @@ Future<void> updatePelanggan() async {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: updatePelanggan,
+                onPressed: UpdateProduk,
                 child: const Text('Update'),
               ),
             ],

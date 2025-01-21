@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DetaiJual extends StatelessWidget {
-  const DetaiJual({super.key});
+class IndexDetailJual extends StatelessWidget {
+  const IndexDetailJual({super.key});
 
   @override
   Widget build(BuildContext context) {

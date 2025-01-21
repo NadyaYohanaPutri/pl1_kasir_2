@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:pl1_kasir/home_page.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/Pelanggan/index_pelanggan.dart';
+import 'package:pl1_kasir/tombol_homepage.dart/produk/index_produk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class InsertPelanggan extends StatefulWidget {
+class InsertProduk extends StatefulWidget {
   @override
-  _InsertPelangganState createState() => _InsertPelangganState();
+  _InsertProdukState createState() => _InsertProdukState();
 }
 
-class _InsertPelangganState extends State<InsertPelanggan> {
+class _InsertProdukState extends State<InsertProduk> {
   final _formKey = GlobalKey<FormState>();
   final _namaController = TextEditingController();
-  final _alamatController = TextEditingController();
-  final _nomorTeleponController = TextEditingController();
+  final _hargaController = TextEditingController();
+  final _stokController = TextEditingController();
 
   final SupabaseClient supabase = Supabase.instance.client;
   Future<void> _saveData() async {
     if (!_formKey.currentState!.validate()) return;
 
     final nama = _namaController.text;
-    final alamat = _alamatController.text;
-    final nomorTelepon = _nomorTeleponController.text;
+    final harga = _hargaController.text;
+    final stok = _stokController.text;
 
     try {
-      final response = await supabase.from('pelanggan').insert({
-        'NamaPelanggan': nama,
-        'Alamat': alamat,
-        'NomorTelepon': nomorTelepon,
+      final response = await supabase.from('produk').insert({
+        'NamaProduk': nama,
+        'Harga': harga,
+        'Stok': stok,
       }).select();
 
       if (response.isNotEmpty) {
@@ -47,13 +47,13 @@ class _InsertPelangganState extends State<InsertPelanggan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tambah Pelanggan', style: TextStyle(color: Colors.white),),
+      appBar: AppBar(title: Text('Tambah Produk', style: TextStyle(color: Colors.white),),
       elevation: 0,
       backgroundColor: Color(0xFF2E7D32),
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPelanggan()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => IndexProduk()));
         },
       ),),
       body: Padding(
@@ -66,25 +66,25 @@ class _InsertPelangganState extends State<InsertPelanggan> {
               TextFormField(
                 controller: _namaController,
                 decoration: InputDecoration(
-                  labelText: 'Nama Pelanggan',
+                  labelText: 'Nama Produk',
                   border: OutlineInputBorder()),
                 validator: (value) => value == null || value.isEmpty ? 'Nama tidak boleh kosong' : null,
               ),
               SizedBox(height: 10,),
               TextFormField(
-                controller: _alamatController,
+                controller: _hargaController,
                 decoration: InputDecoration(
-                  labelText: 'Alamat',
+                  labelText: 'Harga',
                   border: OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? 'Alamat tidak boleh kosong' : null,
+                validator: (value) => value == null || value.isEmpty ? 'Harga tidak boleh kosong' : null,
               ),
               SizedBox(height: 10,),
               TextFormField(
-                controller: _nomorTeleponController,
+                controller: _stokController,
                 decoration: InputDecoration(
-                  labelText: 'Nomor Telepon',
+                  labelText: 'Stok ',
                   border: OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? 'Nomor Telepon tidak boleh kosong' : null,
+                validator: (value) => value == null || value.isEmpty ? 'Stok  tidak boleh kosong' : null,
               ),
               SizedBox(height: 20),
               ElevatedButton(onPressed: _saveData, child: Text('Simpan')),

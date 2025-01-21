@@ -1,60 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/Pelanggan/insert_pelanggan.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/Pelanggan/update_pelanggan.dart';
+import 'package:pl1_kasir/tombol_homepage.dart/produk/insert_produk.dart';
+import 'package:pl1_kasir/tombol_homepage.dart/produk/update_produk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class IndexPelanggan extends StatefulWidget {
-  const IndexPelanggan({super.key});
+class IndexProduk extends StatefulWidget {
+  const IndexProduk({super.key});
 
   @override
-  _IndexPelangganState createState() => _IndexPelangganState();
+  _IndexProdukState createState() => _IndexProdukState();
 }
 
-class _IndexPelangganState extends State<IndexPelanggan> {
-  List<Map<String, dynamic>> pelanggan = [];
+class _IndexProdukState extends State<IndexProduk> {
+  List<Map<String, dynamic>> produk = [];
 
   @override
   void initState() {
     super.initState();
-    fetchPelanggan();
+    fetchProduk();
   }
 
-  Future<void> fetchPelanggan() async {
+  Future<void> fetchProduk() async {
     try {
-      final response = await Supabase.instance.client.from('pelanggan').select();
+      final response = await Supabase.instance.client.from('produk').select();
       setState(() {
-        pelanggan = List<Map<String, dynamic>>.from(response);
+        produk = List<Map<String, dynamic>>.from(response);
       });
     } catch (e) {
-      print('Error fetching pelanggan: $e');
+      print('Error fetching produk: $e');
     }
   }
 
-  Future<void> deletePelanggan(int id) async {
+  Future<void> deleteProduk(int id) async {
     try {
-      await Supabase.instance.client.from('pelanggan').delete().eq('PelangganID', id);
-      fetchPelanggan();
+      await Supabase.instance.client.from('produk').delete().eq('ProdukID', id);
+      fetchProduk();
     } catch (e) {
-      print('Error deleting pelanggan: $e');
+      print('Error deleting produk: $e');
     }
   }
 
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    body: pelanggan.isEmpty
+    body: produk.isEmpty
         ? Center(
             child: Text(
-              'Tidak ada pelanggan',
+              'Tidak ada produk',
               style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           )
         : ListView.builder(
             padding: EdgeInsets.all(8),
-            itemCount: pelanggan.length,
+            itemCount: produk.length,
             itemBuilder: (context, index) {
-              final langgan = pelanggan[index];
+              final langgan = produk[index];
               return SizedBox(
                 height: 145,
                 child: Card(
@@ -73,21 +73,21 @@ Widget build(BuildContext context) {
                             children: [
                               SizedBox(height: 5,),
                               Text(
-                                langgan['NamaPelanggan'] ?? 'Pelanggan tidak tersedia',
+                                langgan['NamaProduk'] ?? 'Produk tidak tersedia',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20,
                                 ),
                               ),
                               SizedBox(height: 4),
                               Text(
-                                langgan['Alamat'] ?? 'Alamat Tidak tersedia',
+                                langgan['Harga'] ?? 'Harga Tidak tersedia',
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic, fontSize: 15, color: Colors.grey,
                                 ),
                               ),
                               SizedBox(height: 8),
                               Text(
-                                langgan['NomorTelepon'] ?? 'Tidak tersedia',
+                                langgan['Stok'] ?? 'Tidak tersedia',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14,
                                 ),
@@ -105,17 +105,17 @@ Widget build(BuildContext context) {
                                 IconButton(
                                   icon: const Icon(Icons.edit, color: Colors.blue, size: 28),
                                   onPressed: () {
-                                    final PelangganID = langgan['PelangganID'] ?? 0;
-                                    if (PelangganID != 0) {
+                                    final ProdukID = langgan['ProdukID'] ?? 0;
+                                    if (ProdukID != 0) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              UpdatePelanggan(PelangganID: PelangganID),
+                                              UpdateProduk(ProdukID: ProdukID,),
                                         ),
                                       );
                                     } else {
-                                      print('ID pelanggan tidak valid');
+                                      print('ID produk tidak valid');
                                     }
                                   },
                                 ),
@@ -126,8 +126,8 @@ Widget build(BuildContext context) {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text('Hapus Pelanggan'),
-                                          content: const Text('Apakah Anda yakin ingin menghapus pelanggan ini?'),
+                                          title: const Text('Hapus Produk'),
+                                          content: const Text('Apakah Anda yakin ingin menghapus produk ini?'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(context),
@@ -135,7 +135,7 @@ Widget build(BuildContext context) {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                deletePelanggan(langgan['PelangganID']);
+                                                deleteProduk(produk['ProdukID']);
                                                 Navigator.pop(context);
                                               },
                                               child: const Text('Hapus'),
@@ -160,7 +160,7 @@ Widget build(BuildContext context) {
     floatingActionButton: FloatingActionButton(
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => InsertPelanggan()));
+            MaterialPageRoute(builder: (context) => InsertProduk()));
       },
       backgroundColor: Color(0xFF2E7D32),
       child: Icon(

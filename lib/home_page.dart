@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pl1_kasir/main.dart';
 import 'package:pl1_kasir/pengaturan/registrasi.dart';
 import 'package:pl1_kasir/pengaturan/sattings.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/produk/buah.dart';
+import 'package:pl1_kasir/tombol_homepage.dart/detail_jual/index_detail_jual.dart';
 import 'package:pl1_kasir/tombol_homepage.dart/Pelanggan/index_pelanggan.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/detail_jual/detai_jual.dart';
+import 'package:pl1_kasir/tombol_homepage.dart/produk/index_produk.dart';
 import 'package:pl1_kasir/tombol_homepage.dart/penjualan/penjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    DetaiJual(),
-    Produk(),
+    IndexDetailJual(),
+    IndexProduk(),
     Penjualan(),
     IndexPelanggan(),
   ];
