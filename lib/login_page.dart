@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pl1_kasir/home_page.dart';
 import 'package:pl1_kasir/main.dart';
+import 'package:pl1_kasir/petugas/home_petugas.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Harap isi semua field')),
+        const SnackBar(content: Text('Harap isi semua field dan pilih role!')),
       );
       return;
     }
@@ -30,26 +31,45 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final response = await supabase
         .from('user')
-        .select('username, password')
-        .eq('username', username)
+        .select('Username, Password, Role')
+        .eq('Username', username)
         .single();
 
-      if (response != null && response['password'] == password) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login berhasil!')),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+      if (response != null && response['Password'] == password) {
+        final userRole = response['Role']; // Role dari database
+
+        if (userRole == 'admin') {
+          // Jika admin, navigasi ke halaman AdminHomePage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else if (userRole == 'petugas') {
+          // Jika petugas, navigasi ke halaman PetugasHomePage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePetugas()),
+          );
+        } else if (userRole == 'pelanggan') {
+          // Jika petugas, navigasi ke halaman PetugasHomePage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePetugas()),
+          );
+        } else {
+          // Role lain, tampilkan pesan
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Role tidak dikenal')),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Username atau Password anda salah!')),
+          const SnackBar(content: Text('Username atau password salah')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Terjadi kesalahan: $e')),
+        const SnackBar(content: Text('Terjadi kesalahan, coba lagi nanti')),
       );
     }
   }
@@ -59,25 +79,32 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF2E7D32),
+        backgroundColor: const Color(0xFFFA7070),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
           onPressed: () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) => MyApp()));
+            Navigator.pop(context, MaterialPageRoute(builder: (context) => const MyApp()));
           },
         ),
       ),
-      body: Center(
-        child: Container(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFDAB9), Color(0xFFFFF9C4)], // Gradasi lembut 
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Container(
           padding: const EdgeInsets.all(25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
-                height: 180,
-                width: 180,
+                height: 250,
+                width: 250,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('asset/image/logo.png'),
@@ -86,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const Text(
                 'Login to your account',
-                style: TextStyle(fontSize: 16, color: Color(0xFF1B5E20)),
+                style: TextStyle(fontSize: 18, color: Color(0xFFFA7070)),
               ),
               const SizedBox(height: 20),
               TextField(
@@ -95,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Username',
                   hintStyle: const TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF1B5E20),
+                    color: Color(0xFFFA7070),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -110,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Password',
                   hintStyle: const TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF1B5E20)),
+                    color: Color(0xFFFA7070)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -133,10 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Color(0xFF2E7D32),
+                    color: const Color(0xFFFA7070),
                     borderRadius: BorderRadius.circular(30)
                   ),
-                  child: Text(
+                  child: const Text(
                     'LOGIN',
                     style: TextStyle(
                       color: Colors.white,
@@ -149,6 +176,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+      )
     );
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pl1_kasir/adminn/Pelanggan/index_pelanggan.dart';
+import 'package:pl1_kasir/adminn/detail_jual/index_detail_jual.dart';
+import 'package:pl1_kasir/adminn/penjualan/index_penjualan.dart';
+import 'package:pl1_kasir/adminn/produk/index_produk.dart';
+import 'package:pl1_kasir/adminn/registrasi/index_registrasi.dart';
 import 'package:pl1_kasir/main.dart';
-import 'package:pl1_kasir/pengaturan/registrasi.dart';
-import 'package:pl1_kasir/pengaturan/sattings.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/detail_jual/index_detail_jual.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/Pelanggan/index_pelanggan.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/produk/index_produk.dart';
-import 'package:pl1_kasir/tombol_homepage.dart/penjualan/penjualan.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final bool isPetugas;
+
+  const HomePage({super.key, this.isPetugas = false});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,10 +19,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    IndexDetailJual(),
-    IndexProduk(),
-    Penjualan(),
-    IndexPelanggan(),
+    const IndexDetailJual(),
+    const IndexProduk(),
+    const IndexPenjualan(),
+    const IndexPelanggan(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,48 +36,57 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xFF2E7D32),
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: const Color(0xFFFA7070),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                child: ListTile(
-                  leading: Icon(Icons.arrow_back_ios,),
-                  title: Text('Pengaturan'),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                  },
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFFFDAB9), Color(0xFFFFF9C4)], // Gradasi lembut background
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 80,
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(color: Color(0xFFFA7070)),
+                  child: ListTile(
+                    leading: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                    title: const Text(
+                      'Pengaturan',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.people),
-              title: Text('Registrasi'),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Registrasi()));
-              },
-            ),
-            SizedBox(height: 5,),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => Settings()));
-              },
-            ),
-            SizedBox(height: 5),
-            ListTile(
-              leading: Icon(Icons.arrow_back),
-              title: Text('Logout'),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-              },
-            )
-          ],
+              if (!widget.isPetugas) 
+              ListTile(
+                leading: const Icon(Icons.people, color: Color(0xFFFA7070)),
+                title: const Text('Registrasi', style: TextStyle(color: Color(0xFFFA7070))),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const IndexRegistrasi()));
+                },
+              ),
+              const SizedBox(height: 5),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Color(0xFFFA7070)),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(color: Color(0xFFFA7070)),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MyApp()));
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: _pages[_selectedIndex],
@@ -88,22 +97,22 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
             label: 'Detail Jualan',
-            backgroundColor: Color(0xFF1B5E20),
+            backgroundColor: Color(0xFFFA7070)
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_food_beverage),
-            label: 'Produk',
-            backgroundColor: Color(0xFF1B5E20),
+            icon: Icon(Icons.store),
+            label: 'Buah',
+            backgroundColor: Color(0xFFFA7070)
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_bag),
             label: 'Penjualan',
-            backgroundColor: Color(0xFF1B5E20),
+            backgroundColor: Color(0xFFFA7070)
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Pelanggan',
-            backgroundColor: Color(0xFF1B5E20),
+            backgroundColor: Color(0xFFFA7070)
           ),
         ],
       ),
