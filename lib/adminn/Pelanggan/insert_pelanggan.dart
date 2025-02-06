@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/home_page.dart';
+import 'package:pl1_kasir/adminn/pelanggan/index_pelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class InsertPelanggan extends StatefulWidget {
@@ -33,7 +33,7 @@ class _InsertPelangganState extends State<InsertPelanggan> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data berhasil disimpan!')),
         );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const IndexPelanggan()));
       } else {
         throw Exception('Gagal menyimpan data.');
       }
@@ -110,23 +110,14 @@ class _InsertPelangganState extends State<InsertPelanggan> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-              onPressed: _saveData,
-              child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFA7070),
-                    borderRadius: BorderRadius.circular(30)
-                  ),
-                  child: const Text(
-                    'Simpan',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                )
+                onPressed: _saveData,
+                child: Text(
+                  'Simpan',
+                  style: TextStyle(color: Colors.white, fontSize: 16),),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 60),
+                    backgroundColor: const Color(0xFFFA7070),
+                ),
               ),
             ],
           ),

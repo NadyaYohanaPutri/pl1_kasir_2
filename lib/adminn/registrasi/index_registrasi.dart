@@ -46,12 +46,12 @@ class _IndexRegistrasiState extends State<IndexRegistrasi> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFFFA7070),
-        title: Text('Data User', style: TextStyle(color: Colors.white),),
+        title: const Text('Data User', style: TextStyle(color: Colors.white),),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.pop(context, MaterialPageRoute(builder: (context) => const HomePage()));
           },
         ),
       ),

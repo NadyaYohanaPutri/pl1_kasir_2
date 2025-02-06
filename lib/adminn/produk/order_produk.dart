@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/adminn/produk/insert_produk.dart';
+import 'package:pl1_kasir/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrderProduk extends StatefulWidget {
@@ -25,6 +25,14 @@ class _OrderProdukState extends State<OrderProduk> {
   Future<void> insertDetailPenjualan(int ProdukID, int PenjualanID, int JumlahProduk, int Subtotal) async {
     final supabase = Supabase.instance.client;
 
+    // Jika jumlah produk 0, hentikan proses
+    if (JumlahProduk == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Jumlah produk harus lebih dari 0!')),
+      );
+      return;
+    }
+
     try {
       final response = await supabase.from('detailpenjualan').insert({
         'ProdukID': ProdukID,
@@ -39,12 +47,10 @@ class _OrderProdukState extends State<OrderProduk> {
         );
         Navigator.pop(context);
       } else {
-        throw response.error!;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menyimpan pesanan: $e')),
-      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
     }
   }
 
@@ -131,11 +137,9 @@ class _OrderProdukState extends State<OrderProduk> {
                                     JumlahProduk,
                                     Subtotal,
                                   );
-                                } : () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => InsertProduk()));
-                                },
+                                } : null, // Tombol tidak bisa ditekan jika pesanan = 0 
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFA7070),
+                            backgroundColor: (JumlahProduk > 0) ? const Color(0xFFFA7070) : Colors.grey,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           child: Text(

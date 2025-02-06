@@ -75,8 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => const LoginPage()));},
                           child: Text(
                             'LOGIN',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          style: TextStyle(color: Colors.white),),
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                             backgroundColor: Color(0xFFFA7070),

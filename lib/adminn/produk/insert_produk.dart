@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/home_page.dart';
+import 'package:pl1_kasir/adminn/produk/index_produk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class InsertProduk extends StatefulWidget {
@@ -33,7 +33,7 @@ class _InsertProdukState extends State<InsertProduk> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data berhasil disimpan!')),
         );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const IndexProduk()));
       } else {
         throw Exception('Gagal menyimpan data.');
       }
@@ -102,22 +102,13 @@ class _InsertProdukState extends State<InsertProduk> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _saveData,
-                  child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFA7070),
-                    borderRadius: BorderRadius.circular(30)
+                  child: Text(
+                      'Simpan',
+                      style: TextStyle(color: Colors.white, fontSize: 16),),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 60),
+                        backgroundColor: const Color(0xFFFA7070),
                   ),
-                  child: const Text(
-                    'Simpan',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
                 ),
               ],
             ),

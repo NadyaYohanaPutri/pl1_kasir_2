@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pl1_kasir/home_page.dart';
-import 'package:pl1_kasir/main.dart';
+import 'package:pl1_kasir/pembeli/home_pembeli.dart';
 import 'package:pl1_kasir/petugas/home_petugas.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -50,11 +50,11 @@ class _LoginPageState extends State<LoginPage> {
             context,
             MaterialPageRoute(builder: (context) => const HomePetugas()),
           );
-        } else if (userRole == 'pelanggan') {
-          // Jika petugas, navigasi ke halaman PetugasHomePage
+        } else if (userRole == 'pembeli') {
+          // Jika pembeli, navigasi ke halaman PembeliHomePage
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomePetugas()),
+            MaterialPageRoute(builder: (context) => const HomePembeli()),
           );
         } else {
           // Role lain, tampilkan pesan
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
           onPressed: () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) => const MyApp()));
+            Navigator.pop(context);
           },
         ),
       ),
@@ -111,22 +111,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              const Text(
-                'Login to your account',
-                style: TextStyle(fontSize: 18, color: Color(0xFFFA7070)),
-              ),
+              const Text('Login to your account', style: TextStyle(fontSize: 18, color: Color(0xFFFA7070))),
               const SizedBox(height: 20),
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
                   hintText: 'Username',
-                  hintStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFFFA7070),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+                  hintStyle: const TextStyle(fontSize: 16, color: Color(0xFFFA7070)),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                 ),
               ),
               const SizedBox(height: 10),
@@ -135,12 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  hintStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFFFA7070)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+                  hintStyle: const TextStyle(fontSize: 16, color: Color(0xFFFA7070)),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
@@ -159,17 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   width: double.infinity,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFA7070),
-                    borderRadius: BorderRadius.circular(30)
-                  ),
-                  child: const Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
+                  decoration: BoxDecoration(color: const Color(0xFFFA7070), borderRadius: BorderRadius.circular(30)),
+                  child: const Text('LOGIN', style: TextStyle(color: Colors.white, fontSize: 16)),
                 ),
               )
             ],

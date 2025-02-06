@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/adminn/penjualan/insert_penjualan.dart';
 import 'package:pl1_kasir/adminn/penjualan/update_penjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class IndexPenjualan extends StatefulWidget {
-  const IndexPenjualan({super.key});
+  final int? penjualanID;
+  final int? pelangganID;
+  final int? totalHarga;
+  final String? tanggal;
+
+  const IndexPenjualan({super.key, this.penjualanID, this.pelangganID, this.totalHarga, this.tanggal});
 
   @override
   State<IndexPenjualan> createState() => _IndexPenjualanState();
@@ -42,6 +46,15 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFA7070),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -54,7 +67,7 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
             ? const Center(
                 child: Text(
                   'Tidak ada penjualan',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.white),
                 ),
               )
             : ListView.builder(
@@ -67,33 +80,33 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
                     child: Card(
                       elevation: 4,
                       margin: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           children: [
-                            // Left Column for Text
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 5),
                                   Text(
-                                    langgan['TanggalPenjualan'] ??
-                                        'Tidak tersedia',
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                    langgan['TangganlPenjualan'] ?? 'Tanggal tidak tersedia',
+                                    style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    langgan['TotalHarga'] ??
-                                        'Tidak tersedia',
-                                    style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 15, color: Colors.grey),
+                                    langgan['TotalHarga'] != null
+                                        ? langgan['TotalHarga'].toString()
+                                        : '0',
+                                    style: const TextStyle(fontStyle: FontStyle.italic,fontSize: 15,color: Colors.grey),
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    langgan['PelangganID'] ??
+                                    langgan['PelangganID']?.toString() ??
                                         'Tidak tersedia',
-                                    style: const TextStyle( fontWeight: FontWeight.bold, fontSize: 14),
+                                    style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                                     textAlign: TextAlign.justify,
                                   ),
                                 ],
@@ -111,7 +124,7 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
                                         final PenjualanID =
                                             langgan['PenjualanID'] ?? 0;
                                         if (PenjualanID != 0) {
-                                          Navigator.push(context,MaterialPageRoute(builder: (context) => UpdatePenjualan(PenjualanID: PenjualanID),),);
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePenjualan(PenjualanID: PenjualanID)));
                                         } else {
                                           print('ID Penjualan tidak valid');
                                         }
@@ -124,7 +137,7 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: const Text('Hapus Penjualan'),
+                                              title:const Text('Hapus Penjualan'),
                                               content: const Text('Apakah Anda yakin ingin menghapus penjualan ini?'),
                                               actions: [
                                                 TextButton(
@@ -133,10 +146,10 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    deletePenjualan(
+                                                      deletePenjualan(
                                                         langgan['PenjualanID']);
-                                                    Navigator.pop(context);
-                                                  },
+                                                      Navigator.pop(context);
+                                                    },
                                                   child: const Text('Hapus'),
                                                 ),
                                               ],
@@ -156,13 +169,6 @@ class _IndexPenjualanState extends State<IndexPenjualan> {
                   );
                 },
               ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const InsertPenjualan()));
-        },
-        backgroundColor: const Color(0xFFFA7070),
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

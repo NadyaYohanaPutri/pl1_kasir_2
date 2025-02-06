@@ -45,6 +45,15 @@ class _IndexProdukState extends State<IndexProduk> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFA7070),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -70,12 +79,12 @@ class _IndexProdukState extends State<IndexProduk> {
                   crossAxisCount: 2, // Dua kartu per baris
                   crossAxisSpacing: 8, // Jarak horizontal (lebar) antar kartu
                   mainAxisSpacing: 8, // Jarak vertikal (tinggi) antar kartu
-                  childAspectRatio: 2 / 1, // Rasio aspek kartu ((3)lebar : (2)tinggi)
+                  childAspectRatio: 2 / 1, // Rasio aspek kartu ((2)lebar : (1)tinggi)
                 ),
                 itemCount: produk.length,
                 itemBuilder: (context, index) {
                   final langgan = produk[index];
-                  return GestureDetector(
+                  return GestureDetector( // GestureDetector untuk menangani event klik sebagai alternatif IconButton
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => OrderProduk(produk: langgan)));
                     },

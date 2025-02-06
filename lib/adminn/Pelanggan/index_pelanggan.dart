@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/adminn/Pelanggan/insert_pelanggan.dart';
-import 'package:pl1_kasir/adminn/Pelanggan/update_pelanggan.dart';
+import 'package:pl1_kasir/adminn/pelanggan/insert_pelanggan.dart';
+import 'package:pl1_kasir/adminn/pelanggan/update_pelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class IndexPelanggan extends StatefulWidget {
@@ -42,6 +42,15 @@ class _IndexPelangganState extends State<IndexPelanggan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFA7070),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -111,7 +120,7 @@ class _IndexPelangganState extends State<IndexPelanggan> {
                                         final PelangganID =
                                             langgan['PelangganID'] ?? 0;
                                         if (PelangganID != 0) {
-                                          Navigator.push(context,MaterialPageRoute(builder: (context) =>UpdatePelanggan(PelangganID: PelangganID),),);
+                                          Navigator.push(context,MaterialPageRoute(builder: (context) => UpdatePelanggan(PelangganID: PelangganID)));
                                         } else {
                                           print('ID pelanggan tidak valid');
                                         }

@@ -129,9 +129,9 @@ class _UpdateProdukState extends State<UpdateProduk> {
                     onPressed: updateProduklanggan,
                     child: Text(
                       'Update',
-                      style: TextStyle(color: Colors.white),),
+                      style: TextStyle(color: Colors.white, fontSize: 16),),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
+                        minimumSize: const Size(double.infinity, 60),
                         backgroundColor: const Color(0xFFFA7070),
                     ),
                   )

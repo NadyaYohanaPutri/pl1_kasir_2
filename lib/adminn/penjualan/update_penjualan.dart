@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pl1_kasir/adminn/penjualan/index_penjualan.dart';
-import 'package:pl1_kasir/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UpdatePenjualan extends StatefulWidget {
@@ -13,9 +12,9 @@ class UpdatePenjualan extends StatefulWidget {
 }
 
 class _UpdatePenjualanState extends State<UpdatePenjualan> {
-  final _tgl = TextEditingController();
-  final _total = TextEditingController();
-  final _plnggnId = TextEditingController();
+  final _tglPen = TextEditingController();
+  final _totalHar = TextEditingController();
+  final _idPel = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -24,6 +23,7 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
     _loadPenjualan();
   }
 
+  // Fungsi untuk memuat data penjualan berdasarkan ID
   Future<void> _loadPenjualan() async {
     final data = await Supabase.instance.client
         .from('penjualan')
@@ -32,9 +32,9 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
         .single();
 
     setState(() {
-      _tgl.text = data['TanggalPenjualan'] ?? '';
-      _total.text = data['TotalHarga'] ?? '';
-      _plnggnId.text = data['PelangganID']?.toString() ?? '';
+      _tglPen.text = data['TanggalPenjualan'] ?? '';
+      _totalHar.text = data['TotalHarga'] ?? '';
+      _idPel.text = data['PelangganID']?.toString() ?? '';
     });
   }
 
@@ -42,14 +42,13 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
     if (_formKey.currentState!.validate()) {
       // Melakukan update data penjualan ke database
       await Supabase.instance.client.from('penjualan').update({
-        'TanggalPenjualan': _tgl.text,
-        'TotalHarga': _total.text,
-        'PelangganID': _plnggnId.text,
-      }).eq('PenjualanID', widget.PenjualanID);
+        'TanggalPenjualan': _tglPen.text,
+        'TotalHarga': _totalHar.text,
+        'PelangganID': _idPel.text,
+      }).eq('PenjualanID',widget.PenjualanID);
 
-      // Navigasi ke PelangganTab setelah update, dengan menghapus semua halaman sebelumnya dari stack
       Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => const HomePage()),
+        context, MaterialPageRoute(builder: (context) => const IndexPenjualan()),
         (route) => false, // Hapus semua halaman sebelumnya
       );
     }
@@ -59,10 +58,10 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Penjualan', style: TextStyle(color: Colors.white)),
+        title: const Text('Edit Data Penjualan', style: TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFFFA7070),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),
           onPressed: () {
             Navigator.pop(context, MaterialPageRoute(builder: (context) => const IndexPenjualan()));
           },
@@ -83,42 +82,42 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                controller: _tgl,
+                controller: _tglPen,
                 decoration: const InputDecoration(
                   labelText: 'Tanggal Penjualan',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Tanggal tidak boleh kosong';
+                    return 'Tidak boleh kosong';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _total,
+                controller: _totalHar,
                 decoration: const InputDecoration(
                   labelText: 'Total Harga',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Total tidak boleh kosong';
+                    return 'Tidak boleh kosong';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _plnggnId,
+                controller: _idPel,
                 decoration: const InputDecoration(
                   labelText: 'ID Pelanggan',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'ID tidak boleh kosong';
+                    return 'Tidak boleh kosong';
                   }
                   return null;
                 },
@@ -132,9 +131,9 @@ class _UpdatePenjualanState extends State<UpdatePenjualan> {
                     onPressed: updatePenjualan,
                     child: Text(
                       'Update',
-                      style: TextStyle(color: Colors.white),),
+                      style: TextStyle(color: Colors.white, fontSize: 16),),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
+                        minimumSize: const Size(double.infinity, 60),
                         backgroundColor: const Color(0xFFFA7070),
                     ),
                   )

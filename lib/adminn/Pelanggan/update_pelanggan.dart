@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pl1_kasir/adminn/Pelanggan/index_pelanggan.dart';
+import 'package:pl1_kasir/adminn/pelanggan/index_pelanggan.dart';
 import 'package:pl1_kasir/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -64,9 +64,9 @@ class _UpdatePelangganState extends State<UpdatePelanggan> {
         title: const Text('Edit Pelanggan', style: TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFFFA7070),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) => IndexPelanggan()));
+            Navigator.pop(context, MaterialPageRoute(builder: (context) => const IndexPelanggan()));
           },
         ),
       ),
@@ -134,9 +134,9 @@ class _UpdatePelangganState extends State<UpdatePelanggan> {
                     onPressed: updatePelanggan,
                     child: Text(
                       'Update',
-                      style: TextStyle(color: Colors.white),),
+                      style: TextStyle(color: Colors.white, fontSize: 16),),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
+                        minimumSize: const Size(double.infinity, 60),
                         backgroundColor: const Color(0xFFFA7070),
                     ),
                   )
